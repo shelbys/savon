@@ -27,11 +27,15 @@ module Savon
       @http_request.auth.ssl.ssl_version   = @globals[:ssl_version]       if @globals.include? :ssl_version
       @http_request.auth.ssl.verify_mode   = @globals[:ssl_verify_mode]   if @globals.include? :ssl_verify_mode
 
-      @http_request.auth.ssl.cert_key      = @globals[:ssl_cert_key_content] if @globals.include? :ssl_cert_key_content
-      @http_request.auth.ssl.cert_key_file = @globals[:ssl_cert_key_file] if @globals.include? :ssl_cert_key_file
-      @http_request.auth.ssl.cert          = @globals[:ssl_cert_content]     if @globals.include? :ssl_cert_content
-      @http_request.auth.ssl.cert_file     = @globals[:ssl_cert_file]     if @globals.include? :ssl_cert_file
       @http_request.auth.ssl.ca_cert_file  = @globals[:ssl_ca_cert_file]  if @globals.include? :ssl_ca_cert_file
+      @http_request.auth.ssl.cert_file     = @globals[:ssl_cert_file]     if @globals.include? :ssl_cert_file
+      @http_request.auth.ssl.cert_key_file = @globals[:ssl_cert_key_file] if @globals.include? :ssl_cert_key_file
+      if @globals.include? :ssl_cert_key_content
+        @http_request.auth.ssl.cert_key = OpenSSL::PKey::RSA.new(@globals[:ssl_cert_key_content], @globals[:ssl_cert_key_password])
+      end
+      if @globals.include? :ssl_cert_content
+        @http_request.auth.ssl.cert = OpenSSL::X509::Certificate.new(@globals[:ssl_cert_content])
+      end
 
       @http_request.auth.ssl.cert_key_password = @globals[:ssl_cert_key_password] if @globals.include? :ssl_cert_key_password
     end

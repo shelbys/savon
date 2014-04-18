@@ -340,7 +340,7 @@ describe "Options" do
   context "global :ssl_cert_key_content" do
     it "sets the cert key content to use" do
       cert_key_content = File.read(File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__))
-      HTTPI::Auth::SSL.any_instance.expects(:cert_key=).with(cert_key_content).twice
+      HTTPI::Auth::SSL.any_instance.expects(:cert_key=).with{|param| param.to_s == cert_key_content }.twice
 
       client = new_client(:endpoint => @server.url, :ssl_cert_key_content => cert_key_content)
       client.call(:authenticate)
@@ -372,7 +372,7 @@ describe "Options" do
   context "global :ssl_cert_content" do
     it "sets the cert content to use" do
       cert_content = File.read(File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__))
-      HTTPI::Auth::SSL.any_instance.expects(:cert=).with(cert_content).twice
+      HTTPI::Auth::SSL.any_instance.expects(:cert=).with{|param| param.to_s == cert_content }.twice
 
       client = new_client(:endpoint => @server.url, :ssl_cert_content => cert_content)
       client.call(:authenticate)
@@ -514,7 +514,7 @@ describe "Options" do
       expect(request).to include("<wsse:Username>lea</wsse:Username>")
 
       # the nonce node
-      expect(request).to match(/<wsse:Nonce>[^<]+<\/wsse:Nonce>/)
+      expect(request).to match(/<wsse:Nonce[^>]*>[^<]+<\/wsse:Nonce>/)
 
       # the created node with a timestamp
       expect(request).to match(/<wsu:Created>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*<\/wsu:Created>/)

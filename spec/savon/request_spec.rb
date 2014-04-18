@@ -90,7 +90,7 @@ describe Savon::WSDLRequest do
       it "is set when specified" do
         cert_key_content = File.read(File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__))
         globals.ssl_cert_key_content(cert_key_content)
-        http_request.auth.ssl.expects(:cert_key=).with(cert_key_content)
+        http_request.auth.ssl.expects(:cert_key=).with{|param| param.to_s == cert_key_content }
 
         new_wsdl_request.build
       end
@@ -169,7 +169,7 @@ describe Savon::WSDLRequest do
       it "is set when specified" do
         cert_content = File.read(File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__))
         globals.ssl_cert_content(cert_content)
-        http_request.auth.ssl.expects(:cert=).with(cert_content)
+        http_request.auth.ssl.expects(:cert=).with{|param| param.to_s == cert_content }
 
         new_wsdl_request.build
       end
@@ -421,7 +421,7 @@ describe Savon::SOAPRequest do
       it "is set when specified" do
         cert_key_content = File.read(File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__))
         globals.ssl_cert_key_content(cert_key_content)
-        http_request.auth.ssl.expects(:cert_key=).with(cert_key_content)
+        http_request.auth.ssl.expects(:cert_key=).with{|param| param.to_s == cert_key_content }
 
         new_soap_request.build
       end
@@ -466,7 +466,7 @@ describe Savon::SOAPRequest do
       it "is set when specified" do
         cert_content = File.read(File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__))
         globals.ssl_cert_content(cert_content)
-        http_request.auth.ssl.expects(:cert=).with(cert_content)
+        http_request.auth.ssl.expects(:cert=).with{|param| param.to_s == cert_content }
 
         new_soap_request.build
       end
