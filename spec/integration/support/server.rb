@@ -11,14 +11,21 @@ class IntegrationServer
     server
   end
 
-  def self.ssl_ca_file;   integration_fixture("ca_all.pem")  end
-  def self.ssl_key_file;  integration_fixture("server.key")  end
-  def self.ssl_cert_file; integration_fixture("server.cert") end
+  def self.ssl_ca_file;      integration_fixture("ca_all.pem")  end
+  def self.ssl_key_content;  integration_fixture_content("server.key")  end
+  def self.ssl_key_file;     integration_fixture("server.key")  end
+  def self.ssl_cert_content; integration_fixture_content("server.cert") end
+  def self.ssl_cert_file;    integration_fixture("server.cert") end
 
   def self.integration_fixture(file)
     file = File.expand_path("../../fixtures/#{file}", __FILE__)
     raise "No such file '#{file}'" unless File.exist? file
     file
+  end
+
+  def self.integration_fixture_content(file)
+    file = integration_fixture(file)
+    File.read(File.expand_path("../../fixtures/#{file}", __FILE__))
   end
 
   def initialize(options = {})

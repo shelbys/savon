@@ -190,6 +190,11 @@ module Savon
       @options[:ssl_verify_mode] = verify_mode
     end
 
+    # Sets the cert key content to use.
+    def ssl_cert_key_content(content)
+      @options[:ssl_cert_key_content] = content
+    end
+
     # Sets the cert key file to use.
     def ssl_cert_key_file(file)
       @options[:ssl_cert_key_file] = file
@@ -198,6 +203,11 @@ module Savon
     # Sets the cert key password to use.
     def ssl_cert_key_password(password)
       @options[:ssl_cert_key_password] = password
+    end
+
+    # Sets the cert content to use.
+    def ssl_cert_content(content)
+      @options[:ssl_cert_content] = content
     end
 
     # Sets the cert file to use.

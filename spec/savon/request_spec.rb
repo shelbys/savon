@@ -86,6 +86,21 @@ describe Savon::WSDLRequest do
       end
     end
 
+    describe "ssl cert key content" do
+      it "is set when specified" do
+        cert_key_content = File.read(File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__))
+        globals.ssl_cert_key_content(cert_key_content)
+        http_request.auth.ssl.expects(:cert_key=).with(cert_key_content)
+
+        new_wsdl_request.build
+      end
+
+      it "is not set otherwise" do
+        http_request.auth.ssl.expects(:cert_key_content=).never
+        new_wsdl_request.build
+      end
+    end
+
     describe "ssl cert key file" do
       it "is set when specified" do
         cert_key = File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__)
@@ -147,6 +162,21 @@ describe Savon::WSDLRequest do
 
           http_request.auth.ssl.cert_key.to_s.should =~ /BEGIN RSA PRIVATE KEY/
         end
+      end
+    end
+
+    describe "ssl cert content" do
+      it "is set when specified" do
+        cert_content = File.read(File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__))
+        globals.ssl_cert_content(cert_content)
+        http_request.auth.ssl.expects(:cert=).with(cert_content)
+
+        new_wsdl_request.build
+      end
+
+      it "is not set otherwise" do
+        http_request.auth.ssl.expects(:cert=).never
+        new_wsdl_request.build
       end
     end
 
@@ -387,6 +417,21 @@ describe Savon::SOAPRequest do
       end
     end
 
+    describe "ssl cert key content" do
+      it "is set when specified" do
+        cert_key_content = File.read(File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__))
+        globals.ssl_cert_key_content(cert_key_content)
+        http_request.auth.ssl.expects(:cert_key=).with(cert_key_content)
+
+        new_soap_request.build
+      end
+
+      it "is not set otherwise" do
+        http_request.auth.ssl.expects(:cert_key=).never
+        new_soap_request.build
+      end
+    end
+
     describe "ssl cert key file" do
       it "is set when specified" do
         cert_key = File.expand_path("../../fixtures/ssl/client_key.pem", __FILE__)
@@ -413,6 +458,21 @@ describe Savon::SOAPRequest do
 
       it "is not set otherwise" do
         http_request.auth.ssl.expects(:cert_key_password=).never
+        new_soap_request.build
+      end
+    end
+
+    describe "ssl cert content" do
+      it "is set when specified" do
+        cert_content = File.read(File.expand_path("../../fixtures/ssl/client_cert.pem", __FILE__))
+        globals.ssl_cert_content(cert_content)
+        http_request.auth.ssl.expects(:cert=).with(cert_content)
+
+        new_soap_request.build
+      end
+
+      it "is not set otherwise" do
+        http_request.auth.ssl.expects(:cert=).never
         new_soap_request.build
       end
     end

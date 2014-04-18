@@ -1,3 +1,8 @@
+## 2.5.0 (2014-04-17)
+
+* Feature: Added support for setting cert and key content via globals, instead of file paths in order to keep the files more secure, see:
+    `:ssl_cert_content`, `:ssl_cert_key_content`
+
 ## 2.4.0 (2014-03-31)
 
 * Logging is off by default. To enable this behavior, set the :log option to true
